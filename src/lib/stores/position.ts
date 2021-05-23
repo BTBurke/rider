@@ -16,14 +16,17 @@ function createPosition() {
 
 	return {
 		subscribe,
-		update: (pos: Position) => update(prev => {
+		update: (pos: GeolocationPosition) => update(prev => {
             let elapsed = 0;
             if (prev.timestamp && pos.timestamp) {
                 elapsed = pos.timestamp - prev.timestamp;
             }
-            return Object.assign({source: 'update', previous: prev, elapsed: elapsed}, pos)
+            return Object.assign({source: 'update', previous: prev, elapsed: elapsed}, {coords: pos.coords, timestamp: pos.timestamp});
         }),
-		set: (pos: Position) => set(Object.assign({source: 'static', distance: 0, elapsed: 0}, pos)),
+		set: (pos: GeolocationPosition) => {
+            const newPos = Object.assign({source: 'static', distance: 0, elapsed: 0}, {coords: pos.coords, timestamp: pos.timestamp});
+            set(newPos); 
+            console.log(newPos);},
 	}
 }
 
