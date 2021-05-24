@@ -98,7 +98,7 @@ export function simplifyPositions(points: Position[], epsilon: number = 15): Pos
 	let dmax = 0;
 	let index = 0;
 	const end = points.length - 1;
-	for (let i = 1; i < points.length; i++) {
+	for (let i = 1; i < points.length - 1; i++) {
 		const d = cross_track_distance(posToLL(points[0]), posToLL(points[end]), posToLL(points[i]))
 		if (d > dmax) {
 			index = i;

@@ -6,12 +6,13 @@ import { Mutex } from 'async-mutex';
 import { writable } from 'svelte/store';
 import { simplifyPositions } from '$lib/geo/math';
 
-
+const POSITION_QUEUE_MAX = 20;
+const POSITION_OLDEST_MINUTES = 5;
 
 export type UpdateResponse = {
 	ok: boolean;
 	didSend: boolean;
-	positionQueueLength?: number;
+	positionQueueLength?: [number, number];
 	responseCode?: number;
 	error?: string
 }
@@ -86,13 +87,16 @@ export class Tracker {
 	private async update(pos: Position, flushImmediately: boolean = false): Promise<UpdateResponse> {
 		let response: UpdateResponse
 		await this.mutex.runExclusive(async () => {
+			const before = this.positions.length;
+
 			if (pos) {
 				this.positions.push(pos);
+				// uses douglas-peucker to simplify positions with cross track error of 15m
 				this.positions = simplifyPositions(this.positions);	
 			}
 			if (this.positions.length === 0) {
 				// nothing to send, could happen if forced to flush a zero-length queue
-				response = {ok: true, didSend: true, positionQueueLength: 0};
+				response = {ok: true, didSend: true, positionQueueLength: [0, 0]};
 				return
 			}
 
@@ -100,7 +104,7 @@ export class Tracker {
 			const elapsed: Duration = now().since(oldest_ts);
 			
 
-			if (this.positions.length >= 10 || elapsed.minutes() >= 5 || flushImmediately) {
+			if (this.positions.length >= POSITION_QUEUE_MAX || elapsed.minutes() >= POSITION_OLDEST_MINUTES || flushImmediately) {
 
 				const body = {
 				"positions": this.positions
@@ -123,7 +127,7 @@ export class Tracker {
 					response = {
 						ok: false,
 						didSend: true,
-						positionQueueLength: this.positions.length,
+						positionQueueLength: [before, this.positions.length],
 						responseCode: resp.status,
 						error: errorMsg
 					}
@@ -133,7 +137,7 @@ export class Tracker {
 					response = {
 						ok: true,
 						didSend: true,
-						positionQueueLength: 0
+						positionQueueLength: [0, 0]
 					}
 				}
 			}
@@ -141,7 +145,7 @@ export class Tracker {
 			response = {
 				ok: true,
 				didSend: false,
-				positionQueueLength: this.positions.length
+				positionQueueLength: [before, this.positions.length]
 			}
 		})
 		return response;
