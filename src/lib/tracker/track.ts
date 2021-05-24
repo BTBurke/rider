@@ -14,7 +14,9 @@ export type UpdateResponse = {
 	didSend: boolean;
 	positionQueueLength?: [number, number];
 	responseCode?: number;
-	error?: string
+	error?: string;
+	lastUpdate?: DateTime;
+	totalPoints?: number;
 }
 
 export enum TrackerState {
@@ -33,6 +35,7 @@ export class Tracker {
 	subscribe
 	private unsubscriber;
 	private setter;
+	private totalPoints = 0;
 	state: TrackerState = TrackerState.Paused
 
 	constructor(uid: string) {
@@ -134,10 +137,13 @@ export class Tracker {
 				} else {
 					// successfully sent, clear queue
 					this.positions = [];
+					this.totalPoints += positions.length;
 					response = {
 						ok: true,
 						didSend: true,
-						positionQueueLength: [0, 0]
+						positionQueueLength: [0, 0],
+						lastUpdate: now(),
+						totalPoints: this.totalPoints
 					}
 				}
 			}
