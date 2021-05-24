@@ -87,14 +87,14 @@ export class Tracker {
 	private async update(pos: Position, flushImmediately: boolean = false): Promise<UpdateResponse> {
 		let response: UpdateResponse
 		await this.mutex.runExclusive(async () => {
-			const before = this.positions.length;
-
 			if (pos) {
 				this.positions.push(pos);
-				// uses douglas-peucker to simplify positions with cross track error of 15m
-				this.positions = simplifyPositions(this.positions);	
 			}
-			if (this.positions.length === 0) {
+			const before = this.positions.length;
+
+			// uses douglas-peucker to simplify positions with cross track error of 15m
+			const positions = simplifyPositions(this.positions)	
+			if (positions.length === 0) {
 				// nothing to send, could happen if forced to flush a zero-length queue
 				response = {ok: true, didSend: true, positionQueueLength: [0, 0]};
 				return
@@ -104,10 +104,10 @@ export class Tracker {
 			const elapsed: Duration = now().since(oldest_ts);
 			
 
-			if (this.positions.length >= POSITION_QUEUE_MAX || elapsed.minutes() >= POSITION_OLDEST_MINUTES || flushImmediately) {
+			if (positions.length >= POSITION_QUEUE_MAX || elapsed.minutes() >= POSITION_OLDEST_MINUTES || flushImmediately) {
 
 				const body = {
-				"positions": this.positions
+				"positions": positions
 				}
 
 				const url = `https://httpbin.org/put`;
@@ -127,7 +127,7 @@ export class Tracker {
 					response = {
 						ok: false,
 						didSend: true,
-						positionQueueLength: [before, this.positions.length],
+						positionQueueLength: [before, positions.length],
 						responseCode: resp.status,
 						error: errorMsg
 					}
@@ -145,7 +145,7 @@ export class Tracker {
 			response = {
 				ok: true,
 				didSend: false,
-				positionQueueLength: [before, this.positions.length]
+				positionQueueLength: [before, positions.length]
 			}
 		})
 		return response;
