@@ -5,9 +5,11 @@ import type { Duration } from '$lib/time/time';
 import { Mutex } from 'async-mutex';
 import { writable } from 'svelte/store';
 import { simplifyPositions } from '$lib/geo/math';
+import { distance } from '$lib/geo/math';
 
 const POSITION_QUEUE_MAX = 20;
 const POSITION_OLDEST_MINUTES = 5;
+const MINIMUM_MOVEMENT_DISTANCE = 2;
 
 export type UpdateResponse = {
 	ok: boolean;
@@ -91,6 +93,11 @@ export class Tracker {
 		let response: UpdateResponse
 		await this.mutex.runExclusive(async () => {
 			if (pos) {
+				const last = this.positions[this.positions.length-1];
+				const d = distance([pos.coords.longitude, pos.coords.latitude], [last.coords.longitude, last.coords.latitude]);
+				if (d < MINIMUM_MOVEMENT_DISTANCE) {
+					return
+				}
 				this.positions.push(pos);
 			}
 			const before = this.positions.length;
