@@ -6,7 +6,8 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import { position } from '$lib/stores/position';
-    import { Tracker, UpdateResponse } from '$lib/tracker';
+    import { Tracker } from '$lib/tracker';
+    import type { UpdateResponse } from '$lib/tracker';
     import type { Duration } from '$lib/time/time';
     import { now } from '$lib/time/time';
 
@@ -14,11 +15,16 @@
     export let watchID: number|null;
     export let trackerStatus: UpdateResponse;
     export let lastUpdate: Duration;
+    export let points: number;
+
     const tracker = new Tracker('test');
     const unsubscribe = tracker.subscribe((resp: UpdateResponse) => {
         trackerStatus = resp;
-        if (resp.ok) {
+        if (resp.ok && resp.lastUpdate) {
             lastUpdate = now().since(resp.lastUpdate);
+        }
+        if (resp.ok && resp.totalPoints) {
+            points = resp.totalPoints;
         }
     })
 
@@ -59,6 +65,12 @@
         <p>Tracker Status</p>
         <p>OK: {trackerStatus.ok}</p>
         <p>Queue Len: {trackerStatus.positionQueueLength}</p>
+        
+        {#if points}
         <p>Total points: {trackerStatus.totalPoints}</p>
-        <p>Last update: {`${lastUpdate.long()} ago`}
+        {/if}
+
+        {#if lastUpdate}
+        <p>Last update: {`${lastUpdate?.long()} ago`}
+        {/if}
 {/if}
