@@ -33,10 +33,12 @@
     })
     const startTrack = () => {
         watchID = navigator.geolocation.watchPosition((pos) => position.update(pos), null, {enableHighAccuracy: true});
+        tracker.start();
     }
     const pauseTrack = () => {
         navigator.geolocation.clearWatch(watchID);
         watchID = null;
+        tracker.pause();
     }
 </script>
 {#if !supported}
