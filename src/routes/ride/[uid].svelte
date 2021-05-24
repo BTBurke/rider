@@ -5,8 +5,16 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import { position } from '$lib/stores/position';
+    import { Tracker, UpdateResponse } from '$lib/tracker';
+
     export let supported = false;
-    export let watchID;
+    export let watchID: number|null;
+    export let trackerStatus: UpdateResponse;
+    const tracker = new Tracker('test');
+    const unsubscribe = tracker.subscribe((resp: UpdateResponse) => {
+        trackerStatus = resp;
+    })
+
 
     onMount(() => {
         if (!navigator.geolocation) {
@@ -15,8 +23,14 @@
             supported = true;
             navigator.geolocation.getCurrentPosition((pos) => position.set(pos), () => supported = false);
         }
+
+        return () => {
+            tracker.stop();
+            pauseTrack();
+            unsubscribe();
+        }
     })
-    const startWatch = () => {
+    const startTrack = () => {
         watchID = navigator.geolocation.watchPosition((pos) => position.update(pos), null, {enableHighAccuracy: true});
     }
     const pauseTrack = () => {
@@ -31,6 +45,9 @@
         {#if watchID}
             <button on:click={pauseTrack}>Pause tracking</button>
         {:else}
-            <button on:click={startWatch}>Start track</button>
+            <button on:click={startTrack}>Start track</button>
         {/if}
+        <p>Tracker Status</p>
+        <p>OK: ${trackerStatus.ok}</p>
+        <p>Queue Len: ${trackerStatus.positionQueueLength}</p>
 {/if}
