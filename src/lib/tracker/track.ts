@@ -117,7 +117,9 @@ export class Tracker {
 			if (positions.length >= POSITION_QUEUE_MAX || elapsed.minutes() >= POSITION_OLDEST_MINUTES || flushImmediately) {
 
 				const body = {
-				"positions": positions
+				"positions": positions.map((pos) => {
+						return {'timestamp': pos.timestamp, 'coords': pos.coords};
+					})
 				}
 
 				const url = `https://httpbin.org/put`;
