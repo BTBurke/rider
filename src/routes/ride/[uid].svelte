@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
-    export const hydrate = true;
+    //export const hydrate = true;
+    export const prerender = true;
 </script>
 
 <script lang="ts">
@@ -48,6 +49,6 @@
             <button on:click={startTrack}>Start track</button>
         {/if}
         <p>Tracker Status</p>
-        <p>OK: ${trackerStatus.ok}</p>
-        <p>Queue Len: ${trackerStatus.positionQueueLength}</p>
+        <p>OK: {trackerStatus.ok}</p>
+        <p>Queue Len: {trackerStatus.positionQueueLength}</p>
 {/if}
