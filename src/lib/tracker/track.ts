@@ -4,6 +4,7 @@ import { DateTime, now } from '$lib/time/time';
 import type { Duration } from '$lib/time/time';
 import { Mutex } from 'async-mutex';
 import { writable } from 'svelte/store';
+import { simplifyPositions } from '$lib/geo/math';
 
 
 
@@ -86,7 +87,8 @@ export class Tracker {
 		let response: UpdateResponse
 		await this.mutex.runExclusive(async () => {
 			if (pos) {
-				this.positions.push(pos);	
+				this.positions.push(pos);
+				this.positions = simplifyPositions(this.positions);	
 			}
 			if (this.positions.length === 0) {
 				// nothing to send, could happen if forced to flush a zero-length queue
