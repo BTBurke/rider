@@ -22,20 +22,20 @@ import type { Handle } from '@sveltejs/kit';
 // 	return response;
 // };
 
-export const handle: Handle = async ({request, render}) => {
-	if (request.query.has('token')) {
-		request.headers['authorization'] = `Bearer ${request.query.get('token')}`
-	}
+// export const handle: Handle = async ({request, render}) => {
+// 	if (request.query.has('token')) {
+// 		request.headers['authorization'] = `Bearer ${request.query.get('token')}`
+// 	}
 
-	const response = await render(request);
+// 	const response = await render(request);
 
-	if (response.status >= 400 && response.status < 500) {
-		return {
-			status: 303,
-			headers: {
-				location: '/login'
-			}
-		}
-	}
-	return response;
-}
+// 	if (response.status >= 400 && response.status < 500) {
+// 		return {
+// 			status: 303,
+// 			headers: {
+// 				location: '/login'
+// 			}
+// 		}
+// 	}
+// 	return response;
+// }
