@@ -7,7 +7,7 @@ import { writable } from 'svelte/store';
 import { simplifyPositions } from '$lib/geo/math';
 import { distance } from '$lib/geo/math';
 
-const POSITION_QUEUE_MAX = 20;
+const POSITION_QUEUE_MAX = 25;
 const POSITION_OLDEST_MINUTES = 5;
 const MINIMUM_MOVEMENT_DISTANCE = 2;
 
@@ -92,11 +92,13 @@ export class Tracker {
 	private async update(pos: Position, flushImmediately: boolean = false): Promise<UpdateResponse> {
 		let response: UpdateResponse
 		await this.mutex.runExclusive(async () => {
-			if (pos) {
-				const last = this.positions[this.positions.length-1];
-				const d = distance([pos.coords.longitude, pos.coords.latitude], [last.coords.longitude, last.coords.latitude]);
-				if (d < MINIMUM_MOVEMENT_DISTANCE) {
-					return
+			if (pos?.coords !== undefined && pos?.coords !== null) {
+				if (this.positions.length >= 1) {
+					const last = this.positions[this.positions.length-1];
+					const d = distance([pos.coords.longitude, pos.coords.latitude], [last.coords.longitude, last.coords.latitude]);
+					if (d < MINIMUM_MOVEMENT_DISTANCE) {
+						return
+					}
 				}
 				this.positions.push(pos);
 			}
@@ -116,14 +118,13 @@ export class Tracker {
 
 			if (positions.length >= POSITION_QUEUE_MAX || elapsed.minutes() >= POSITION_OLDEST_MINUTES || flushImmediately) {
 
-				const body = {
-				"positions": positions.map((pos) => {
-						return {'timestamp': pos.timestamp, 'coords': pos.coords};
+				const body = positions.map((pos) => {
+						return Object.assign({}, {timestamp: pos.timestamp}, {coords: {latitude: pos.coords.latitude, longitude: pos.coords.longitude, altitude: pos.coords.altitude, speed: pos.coords.speed, heading: pos.coords.heading}});
 					})
-				}
+				console.log('body', body);
 
-				const url = `https://httpbin.org/put`;
-				//const url = `http://localhost/track/${this.uid}`
+				//const url = `https://httpbin.org/put`;
+				const url = `http://localhost:8080/track/${this.uid}`
 
 				const resp = await fetch(url, {
 					method: 'PUT',

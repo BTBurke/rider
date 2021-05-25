@@ -19,11 +19,14 @@
 
     const tracker = new Tracker('test');
     const unsubscribe = tracker.subscribe((resp: UpdateResponse) => {
+        if (!resp) {
+            return
+        }
         trackerStatus = resp;
-        if (resp.ok && resp.lastUpdate) {
+        if (resp?.ok && resp?.lastUpdate) {
             lastUpdate = now().since(resp.lastUpdate);
         }
-        if (resp.ok && resp.totalPoints) {
+        if (resp?.ok && resp?.totalPoints) {
             points = resp.totalPoints;
         }
     })
