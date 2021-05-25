@@ -124,7 +124,8 @@ export class Tracker {
 				console.log('body', body);
 
 				//const url = `https://httpbin.org/put`;
-				const url = `http://localhost:8080/track/${this.uid}`
+				//const url = `http://localhost:8080/track/${this.uid}`
+				const url = `https://api.mototripper.app/track/${this.uid}`
 
 				const resp = await fetch(url, {
 					method: 'PUT',
