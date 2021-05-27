@@ -18,7 +18,8 @@
 
 body {
 	min-height: 100vh;
-	margin: 0;
+	margin: 0 !important;
+	padding: 0;
 	background-color: var(--primary-color);
 	background: linear-gradient(
 		180deg,
@@ -27,6 +28,13 @@ body {
 		var(--tertiary-color) 41.35%
 	);
 }
+
+.mapboxgl-canvas {
+	left: 0;
+	top: 0;
+	margin: 0;
+}
+
 h1,
 h2,
 p {
