@@ -113,7 +113,7 @@ const refresh = async () => {
 <style>
     div {
         width: 100%;
-        height: 95vh;
+        height: 100vh;
         z-index: 0;
     }
 
