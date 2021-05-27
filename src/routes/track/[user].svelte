@@ -23,7 +23,7 @@ onMount(async () => {
             style: 'https://api.maptiler.com/maps/2e9f2f5e-7759-444e-9b9d-f2ff18fe2828/style.json?key=es2gj1CBla7a4NVQzHHV',
         });
 
-        const resp = await fetch('https://api.mototripper.app/track/~test');
+        const resp = await fetch('https://api.mototripper.app/track/~scooter');
         console.log(resp);
         if (resp.ok) {
             const body = await resp.json();
