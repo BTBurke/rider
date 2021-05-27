@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { onMount } from "svelte";
-import { Map } from 'maplibre-gl';
+import * as maplibre from 'maplibre-gl';
 
 let map;
 let container;
@@ -18,7 +18,7 @@ onMount(async () => {
     link.href = 'https://unpkg.com/mapbox-gl/dist/mapbox-gl.css';
 
     link.onload = async () => {
-        map = new Map({
+        map = new maplibre.Map({
             container,
             style: 'https://api.maptiler.com/maps/2e9f2f5e-7759-444e-9b9d-f2ff18fe2828/style.json?key=es2gj1CBla7a4NVQzHHV',
         });
