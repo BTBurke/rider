@@ -26,6 +26,7 @@ import { onMount } from "svelte";
 import * as maplibre from 'maplibre-gl';
 import { liveTrack } from '$lib/stores/live';
 import type { LiveTrackServerResponse } from '$lib/api';
+import WiRefresh from 'svelte-icons/wi/WiRefresh.svelte';
 
 let map;
 let container;
@@ -95,7 +96,7 @@ const refresh = async () => {
                     <div class="loc-1">{updating ? "Updating..." : $liveTrack.last_position.display}</div>
                     <div>
                         <button class="refresh" on:click={refresh} disabled={updating}>
-                            U
+                            <WiRefresh/>
                         </button>
                     </div>
                 </div>
@@ -132,14 +133,17 @@ const refresh = async () => {
     .inline {
         display: inline-flex;
     }
-
     .loc-1 {
         width: 200px;
         line-height: 1.1rem;
+        margin: auto;
     }
     .refresh {
         cursor: pointer;
         background: #ffffff;
+        font-size: 2rem;
+        color: #333;
+        padding: 0;
         height: 40px;
         width: 40px;
         margin: auto;
