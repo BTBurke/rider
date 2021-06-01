@@ -43,9 +43,20 @@ onMount(async () => {
                     },
                     'paint': {
                         'line-color': '#4361ee',
-                        'line-width': 8
                     }
                 });
+                map.setPaintProperty('track', 'line-width', [
+                    'interpolate',
+                    // Set the exponential rate of change to 0.5
+                    ['exponential', 0.5],
+                    ['zoom'],
+                    // When zoom is 15, line width larger
+                    15,
+                    4,
+                    // When zoom is 18 or higher, line skinnier
+                    18,
+                    8
+                ]);
                 map.fitBounds(resp.bbox, {
                     linear: true,
                     padding: {top: 20, bottom:20, left: 20, right: 20}
