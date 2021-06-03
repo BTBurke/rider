@@ -15,6 +15,7 @@ let values = {
     caption: '',
 }
 let caption = '';
+let pondReady = false;
 
 // pond.getFiles() will return the active files
 
@@ -23,6 +24,7 @@ let name = 'file';
 
 // handle filepond events
 function handleInit() {
+    pondReady = true;
 	console.log('FilePond has initialised');
 }
 
@@ -67,9 +69,9 @@ const handleCaptionChange = (evt) => {
         <label class="block tracking-wide text-gray-700 text-sm font-bold mb-0 mb-2" for="caption">
             Say something interesting
         </label>
-        <textarea on:change={handleCaptionChange} bind:value={caption} class="block relative resize-none border-2 border-bg-100 border-b-0 w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
-        <div>   
-            <div class="bg-gray-100 w-full text-gray-700 border-2 border-gray-100">
+        <textarea on:change={handleCaptionChange} bind:value={caption} class="block relative resize-none border-2 border-gray-100 border-b-0 w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
+        <div class="bg-gray-100 w-full text-gray-700 border-2 border-gray-100 border-t-0">
+            <div class={pondReady ? "block" : "hidden"}>   
                 <FilePond bind:this={pond} {name}
                     class="m-0 bg-gray-100 text-decoration-none"
 		            server="http://localhost:8080/upload"
