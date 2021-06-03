@@ -5,6 +5,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import './filepond-plugin-image-preview.min.css';
 import IoMdSend from 'svelte-icons/io/IoMdSend.svelte'
+import IoIosCloudUpload from 'svelte-icons/io/IoIosCloudUpload.svelte'
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 // a reference to the component, used to call FilePond methods
@@ -74,7 +75,13 @@ const handleCaptionChange = (evt) => {
         <textarea on:change={handleCaptionChange} bind:value={caption} class="block relative resize-none w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
         <div class="w-full flex flex-row bg-white h-10 justify-end md:hidden">
             {#if caption}
-                <button class="bg-pacific-700 text-white p-0 py-1 w-12 mr-1 my-1 rounded" type="submit"><IoMdSend/></button>
+                <button class="bg-pacific-700 text-white p-0 py-1 w-12 mr-1 my-1 rounded" class:process={isSubmitting} type="submit" on:click={onSubmit} disabled={isSubmitting}>
+                    {#if isSubmitting}
+                        <IoIosCloudUpload/>
+                    {:else}
+                        <IoMdSend/>
+                    {/if}
+                </button>
             {/if}
         </div>
         <div class="bg-gray-100 w-full text-gray-700">
@@ -110,6 +117,11 @@ const handleCaptionChange = (evt) => {
 {/if}
 
 <style global>
+.process {
+    background-color: #ffffff;
+    color: #333;
+    outline: none !important;
+}
 
 .filepond--root {
     margin: 0;
