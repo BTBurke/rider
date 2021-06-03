@@ -1,9 +1,9 @@
 <script>
 import FilePond, { registerPlugin, supported } from 'svelte-filepond';
-import './filepond.css';
+//import './filepond.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import './filepond-plugin-image-preview.min.css';
+//import './filepond-plugin-image-preview.min.css';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 // a reference to the component, used to call FilePond methods
@@ -15,7 +15,6 @@ let values = {
     caption: '',
 }
 let caption = '';
-let photoReady = false;
 
 // pond.getFiles() will return the active files
 
@@ -24,7 +23,6 @@ let name = 'file';
 
 // handle filepond events
 function handleInit() {
-    photoReady = true;
 	console.log('FilePond has initialised');
 }
 
