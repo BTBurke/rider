@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Recursive';
+    src: url("/med.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Recursive';
+  src: url('/med-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Recursive';
+  src: url('/bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Recursive';
+  src: url('/bold-italic.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+}
+
+html {
+  font-family: 'Recursive';
+}
+
+body {
+  @apply font-sans m-0 p-0;
+}
+
+div {
+  @apply font-sans;
+}

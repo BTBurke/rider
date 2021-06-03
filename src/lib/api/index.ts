@@ -38,6 +38,7 @@ export async function getLiveTrack(uid: string, fetchM = fetch, since?: number):
     }
     const resp = await fetchM(url, {
         cache: 'no-cache',
+        mode: 'cors',
     })
     if (resp.ok) {
         const data = await resp.json();

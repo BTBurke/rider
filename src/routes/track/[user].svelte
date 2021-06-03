@@ -90,16 +90,14 @@ const refresh = async () => {
         <slot></slot>
     {/if}
     {#if $liveTrack?.last_position.display}
-        <div class="loc">
-            <div class="center">
-                <div class="inline">
-                    <div class="loc-1">{updating ? "Updating..." : $liveTrack.last_position.display}</div>
-                    <div>
-                        <button class="refresh" on:click={refresh} disabled={updating}>
+        <div class="mt-4 z-50 absolute t-0 w-screen">
+            <div class="p-0 bg-white flex flex-row flex-space-between max-w-md md:max-w-md w-auto rounded-lg mr-2 ml-2 md:m-auto">
+                    <div class="flex-grow m-auto ml-4">{updating ? "Updating..." : $liveTrack.last_position.display}</div>
+                    <div class="mr-1 m-auto" on:click={refresh}>
+                        <button class="w-12 h-12 text-2xl" on:click={refresh} disabled={updating}>
                             <WiRefresh/>
                         </button>
                     </div>
-                </div>
             </div>
         </div>
     {/if}
