@@ -1,17 +1,9 @@
 <script>
 import FilePond, { registerPlugin, supported } from 'svelte-filepond';
 import './filepond.css';
-
-// Import the Image EXIF Orientation and Image Preview plugins
-// Note: These need to be installed separately
-// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import './filepond-plugin-image-preview.min.css';
-
-import {Sveltik, Form, Field} from 'sveltik';
-
-// Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 // a reference to the component, used to call FilePond methods
@@ -34,9 +26,11 @@ function handleInit() {
 }
 
 function handleProcessFile(err, fileItem) {
-	console.log('A file has been added', fileItem);
-    console.log('server id', fileItem.serverId);
     values = Object.assign(values, {file: fileItem.serverId});
+}
+
+const handleRemoveFile = (err, file) => {
+    values.file = '';
 }
 
 const checkMediaType = (item) => {
@@ -49,10 +43,6 @@ const checkMediaType = (item) => {
         return false;
     }
     return true;
-}
-
-const validate = values => {
-    return null
 }
 
 const onSubmit = (evt) => {
@@ -82,6 +72,7 @@ const handleCaptionChange = (evt) => {
 		        allowMultiple={false}
 		        oninit={handleInit}
 		        onprocessfile={handleProcessFile}
+                onremovefile={handleRemoveFile}
                 required={true}
                 labelIdle={'<span class="filepond--label-action image-upload-button"><img src="https://raw.githubusercontent.com/stephenhutchings/typicons.font/fc8eebf13239a44b16fa925f6de774adb8eb8643/src/svg/camera-outline.svg"></span></span>'}
                 credits={{label: "", url: null}}
@@ -90,8 +81,10 @@ const handleCaptionChange = (evt) => {
             />
         </div>
         <input type="hidden" name="file" id="file" />
-        <button type="submit" on:click|preventDefault={onSubmit} disabled={isSubmitting}>Post</button>
-        </form>
+        <div class="flex justify-center align-center">
+            <button class="absolute bottom-4 bg-gray-100 py-4 px-24 rounded-md" type="submit" on:click|preventDefault={onSubmit} disabled={isSubmitting}>Post</button>
+        </div>
+    </form>
 </div>
 {#if error}
 <div class="text-danger text-center w-screen text-sm">
