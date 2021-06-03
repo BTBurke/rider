@@ -4,6 +4,7 @@ import './filepond.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import './filepond-plugin-image-preview.min.css';
+import IoMdSend from 'svelte-icons/io/IoMdSend.svelte'
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 // a reference to the component, used to call FilePond methods
@@ -69,8 +70,14 @@ const handleCaptionChange = (evt) => {
         <label class="block tracking-wide text-gray-700 text-sm font-bold mb-0 mb-2" for="caption">
             Say something interesting
         </label>
-        <textarea on:change={handleCaptionChange} bind:value={caption} class="block relative resize-none border-2 border-gray-100 border-b-0 w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
-        <div class="bg-gray-100 w-full text-gray-700 border-2 border-gray-100 border-t-0">
+        <div class="border-2 border-gray-100">
+        <textarea on:change={handleCaptionChange} bind:value={caption} class="block relative resize-none w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
+        <div class="w-full flex flex-row bg-white h-10 justify-end md:hidden">
+            {#if caption}
+                <button class="bg-pacific-700 text-white p-0 py-1 w-12 mr-1 my-1 rounded" type="submit"><IoMdSend/></button>
+            {/if}
+        </div>
+        <div class="bg-gray-100 w-full text-gray-700">
             <div class={pondReady ? "block" : "hidden"}>   
                 <FilePond bind:this={pond} {name}
                     class="m-0 bg-gray-100 text-decoration-none"
@@ -88,11 +95,11 @@ const handleCaptionChange = (evt) => {
             </div>
         </div>
         <input type="hidden" name="file" id="file" />
-        <div class="flex justify-center align-center">
+        <div class="hidden flex justify-center align-center md:block">
         {#if caption || values.file.length !== 0}
             <button class="absolute bottom-4 bg-pacific-700 py-4 px-24 rounded-md text-white" type="submit" on:click|preventDefault={onSubmit} disabled={isSubmitting}>{isSubmitting ? "Sending..." : "Post"}</button>
         {/if}
-
+        </div>
         </div>
     </form>
 </div>
