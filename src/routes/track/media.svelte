@@ -14,6 +14,8 @@ let values = {
     file: '',
     caption: '',
 }
+let caption = '';
+let photoReady = false;
 
 // pond.getFiles() will return the active files
 
@@ -22,6 +24,7 @@ let name = 'file';
 
 // handle filepond events
 function handleInit() {
+    photoReady = true;
 	console.log('FilePond has initialised');
 }
 
@@ -48,8 +51,10 @@ const checkMediaType = (item) => {
 const onSubmit = (evt) => {
     evt.preventDefault();
     isSubmitting = true;
+    setTimeout(() => {
+        isSubmitting = false;
+    }, 1500);
     console.log(values);
-    isSubmitting = false;
 }
 
 const handleCaptionChange = (evt) => {
@@ -60,29 +65,34 @@ const handleCaptionChange = (evt) => {
 </script>
 
 <div class="w-full">
-	    <form class="mx-4 my-4">
-        <label class="block tracking-wide text-gray-700 text-sm font-bold mb-0 mb-1" for="caption">
+	    <form class="mx-4 my-4 mt-8">
+        <label class="block tracking-wide text-gray-700 text-sm font-bold mb-0 mb-2" for="caption">
             Say something interesting
         </label>
-        <textarea on:change={handleCaptionChange} class="block relative resize-none border-2 border-primary border-b-0 w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
-        <div class="bg-gray-100 w-full text-gray-700 border-2 border-gray-100">
-            <FilePond bind:this={pond} {name}
-                class="m-0 bg-gray-100 text-decoration-none"
-		        server="http://localhost:8080/upload"
-		        allowMultiple={false}
-		        oninit={handleInit}
-		        onprocessfile={handleProcessFile}
-                onremovefile={handleRemoveFile}
-                required={true}
-                labelIdle={'<span class="filepond--label-action image-upload-button"><img src="https://raw.githubusercontent.com/stephenhutchings/typicons.font/fc8eebf13239a44b16fa925f6de774adb8eb8643/src/svg/camera-outline.svg"></span></span>'}
-                credits={{label: "", url: null}}
-                acceptedFileTypes={["image/*"]}
-                beforeAddFile={checkMediaType}
-            />
+        <textarea on:change={handleCaptionChange} bind:value={caption} class="block relative resize-none border-2 border-bg-100 border-b-0 w-full bg-white appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" rows="5" type="textarea" name="caption" form="post"/>
+        <div>   
+            <div class="bg-gray-100 w-full text-gray-700 border-2 border-gray-100">
+                <FilePond bind:this={pond} {name}
+                    class="m-0 bg-gray-100 text-decoration-none"
+		            server="http://localhost:8080/upload"
+		            allowMultiple={false}
+		            oninit={handleInit}
+		            onprocessfile={handleProcessFile}
+                    onremovefile={handleRemoveFile}
+                    required={true}
+                    labelIdle={'<span class="filepond--label-action image-upload-button"><img src="https://raw.githubusercontent.com/stephenhutchings/typicons.font/fc8eebf13239a44b16fa925f6de774adb8eb8643/src/svg/camera-outline.svg"></span></span>'}
+                    credits={{label: "", url: null}}
+                    acceptedFileTypes={["image/*"]}
+                    beforeAddFile={checkMediaType}
+                />
+            </div>
         </div>
         <input type="hidden" name="file" id="file" />
         <div class="flex justify-center align-center">
-            <button class="absolute bottom-4 bg-gray-100 py-4 px-24 rounded-md" type="submit" on:click|preventDefault={onSubmit} disabled={isSubmitting}>Post</button>
+        {#if caption || values.file.length !== 0}
+            <button class="absolute bottom-4 bg-pacific-700 py-4 px-24 rounded-md text-white" type="submit" on:click|preventDefault={onSubmit} disabled={isSubmitting}>{isSubmitting ? "Sending..." : "Post"}</button>
+        {/if}
+
         </div>
     </form>
 </div>
@@ -99,6 +109,7 @@ const handleCaptionChange = (evt) => {
     padding:0;
     height: auto;
     min-height: 0;
+    color: #ffffff;
 }
 
 .filepond--wrapper {
@@ -133,6 +144,7 @@ const handleCaptionChange = (evt) => {
 
 .image-upload-button {
     @apply bg-gray-100;
+    color: #ffffff;
     text-decoration: none;
     min-width: 80px;
     min-height: 80px;
