@@ -33,6 +33,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@editorjs/delimiter": "^1.2.0",
     "@editorjs/editorjs": "^2.22.2",
     "@editorjs/header": "^2.6.1",
     "@editorjs/image": "^2.6.1",

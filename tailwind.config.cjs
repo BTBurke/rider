@@ -10,11 +10,11 @@ module.exports = {
        'white': '#ffffff',
     },
     fontFamily: {
-       'sans': ['Recursive', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", 'Arial', 'sans-serif'],
+       'sans': ['Lusitania', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", 'Arial', 'sans-serif'],
        'serif': ['ui-serif', 'Georgia'],
-       'mono': ['ui-monospace', 'SFMono-Regular'],
-       'display': ['Oswald'],
-       'body': ['Recursive', 'Open Sans'],
+       'mono': ['Recursive', 'SFMono-Regular'],
+       'display': ['Raleway'],
+       'body': ['Lusitania', 'Open Sans'],
     },
     extend: {
       colors: {

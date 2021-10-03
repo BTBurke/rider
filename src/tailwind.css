@@ -30,8 +30,54 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'Raleway';
+  src: url('/Raleway-Medium.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('Raleway-Bold.ttf') format('ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lusitania';
+  src: url('/Lusitana-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lusitania';
+  src: url('/Lusitana-Bold.ttf') format('ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
 html {
   font-family: 'Recursive';
+}
+
+.font-display {
+  font-family: 'Raleway';
+}
+
+.font-display-bold {
+  font-family: 'Raleway';
+  font-weight: bold;
+}
+
+.font-ui {
+  font-family: 'Recursive';
+}
+
+.font-body {
+  font-family: 'Lusitania';
 }
 
 body {
