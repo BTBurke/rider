@@ -336,6 +336,11 @@
   resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.6.1.tgz#454a46e4dbb32ae3aa1db4d22b0ddf2cc36c3134"
   integrity sha512-EsnyVFv5uThpU9tbQ/dUPFCQoa/sBFy2n+9tN3wOXJGx7sjea4fdcacJ2UYhO+7pCgZ+aSgmMOyGLYHUFbchvA==
 
+"@editorjs/image@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.6.1.tgz#43cea656e0db30aa03a01fadcb9d8143f2cb936e"
+  integrity sha512-ZGQJAW4gzkVGjXGbY1Rl13Wt8q/mQuk+fPn3kNFspL/m9TNjpK19vBqWN3NTCe+nVF97X9WBev/qmsBzuE3Ipg==
+
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"

@@ -35,6 +35,7 @@
   "dependencies": {
     "@editorjs/editorjs": "^2.22.2",
     "@editorjs/header": "^2.6.1",
+    "@editorjs/image": "^2.6.1",
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
     "async-mutex": "^0.3.1",
