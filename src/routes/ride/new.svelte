@@ -1,4 +1,6 @@
 <script context="module">
+	import { dev } from '$app/env';
+	
 	export async function load({ session }) {
         if (dev) {
             return {
