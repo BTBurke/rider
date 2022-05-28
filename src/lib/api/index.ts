@@ -8,6 +8,7 @@ if (import.meta.env.VITE_ENV === "development") {
 export type LastPosition = {
     position: LngLat;
     ts: number;
+    heading: number;
     display?: string;
 }
 

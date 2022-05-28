@@ -1,6 +1,6 @@
 <script lang="ts">
 import { setContext, onMount } from 'svelte';
-import LngLat from '$lib/geo/types';
+import type { LngLat } from '$lib/geo/types';
 import * as L from 'leaflet';
 
 export let showMiniMap: boolean = true;

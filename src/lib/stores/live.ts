@@ -30,10 +30,12 @@ function createLiveTrack() {
                     ]
                 }
             });
-            map.fitBounds(data.bbox, {
-                linear: true,
-                padding: {top: 120, bottom:40, left: 40, right: 40}     
-            });
+            map.setLayoutProperty('point', 'icon-rotate', data.last_position.heading);
+            setTimeout(() => {
+                map.easeTo({
+                    center: data.last_position.position
+                })
+            }, 2000)
             return data;
         }),
 		set: (data: LiveTrackServerResponse) => {
@@ -97,7 +99,7 @@ function createLiveTrack() {
                 'layout': {
                     'icon-image': 'position',
                     'icon-anchor': 'center',
-                    'icon-rotate': 25
+                    'icon-rotate': data.last_position.heading,
                 }
             });
             map.setLayoutProperty('point', 'icon-size', [
