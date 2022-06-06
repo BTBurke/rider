@@ -30,7 +30,7 @@ function createLiveTrack() {
                     ]
                 }
             });
-            const heading = data?.last_position.heading || 0;
+            const heading = data.last_position.heading ? data.last_position.heading : 0;
             map.setLayoutProperty('point', 'icon-rotate', heading);
             setTimeout(() => {
                 map.easeTo({
@@ -93,7 +93,7 @@ function createLiveTrack() {
                 }
             });   
             // adds the latest point
-            const heading = data?.last_position.heading || 0;
+            const heading = data.last_position.heading ? data.last_position.heading : 0;
             map.addLayer({
                 'id': 'point',
                 'type': 'symbol',
