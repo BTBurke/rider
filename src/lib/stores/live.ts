@@ -93,7 +93,8 @@ function createLiveTrack() {
                 }
             });   
             // adds the latest point
-            const heading = data.last_position.heading ? data.last_position.heading : 0;
+            let heading = data.last_position.heading ? data.last_position.heading : 0;
+            console.debug('heading', heading);
             map.addLayer({
                 'id': 'point',
                 'type': 'symbol',
@@ -101,7 +102,7 @@ function createLiveTrack() {
                 'layout': {
                     'icon-image': 'position',
                     'icon-anchor': 'center',
-                    'icon-rotate': data.last_position.heading,
+                    'icon-rotate': heading,
                 }
             });
             map.setLayoutProperty('point', 'icon-size', [
