@@ -14,7 +14,7 @@ function createLiveTrack() {
             if (!map) {
                 throw new Error('no map instance found in live track store');
             }
-            map.getSource('track').setData(data.data);
+            map.getSource('track').setData(data?.data);
             map.getSource('point').setData({
                 'type': 'geojson',
                 'data': {
@@ -24,16 +24,17 @@ function createLiveTrack() {
                             'type': 'Feature',
                             'geometry': {
                                 'type': 'Point',
-                                'coordinates': data.last_position.position
+                                'coordinates': data?.last_position.position
                             }
                         }
                     ]
                 }
             });
-            map.setLayoutProperty('point', 'icon-rotate', data.last_position.heading);
+            const heading = data?.last_position.heading || 0;
+            map.setLayoutProperty('point', 'icon-rotate', heading);
             setTimeout(() => {
                 map.easeTo({
-                    center: data.last_position.position
+                    center: data?.last_position.position
                 })
             }, 2000)
             return data;
@@ -65,7 +66,7 @@ function createLiveTrack() {
                 ['exponential', 0.5],
                 ['zoom'],
                 4,
-                0,
+                4,
                 15,
                 4,
                 18,
