@@ -93,6 +93,7 @@ function createLiveTrack() {
                 }
             });   
             // adds the latest point
+            const heading = data?.last_position.heading || 0;
             map.addLayer({
                 'id': 'point',
                 'type': 'symbol',
